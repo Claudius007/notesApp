@@ -1,58 +1,66 @@
-const log = console.log
-const fs = require('fs')
+const log = console.log;
+const fs = require("fs");
+const chalk = require("chalk");
 
+const getNotes = function() {
+  return "Your notes...";
+};
 
-const getNotes = function(){
-    return 'Your notes...';
-   
-}
-const removeNote = function(title){
-    log( "note removed: ",title)
+const removeNote = function(title) {
+  const notes = loadNotes();
 
-}
-const addNote = function(title, body){
- const notes = loadNotes()
- const duplicatenotes = notes.filter(function(note){
-     return note.title === title
- })
+  function selectNoteToRemove(note) {
+    return note.title !== title;
+  }
+  const noteToSave = notes.filter(selectNoteToRemove);
 
- if (duplicatenotes.length===0){
+  if (noteToSave.length < notes.length) {
+    saveNotes(noteToSave);
+    log(chalk.green.inverse("note removed: ", title));
+  } else {
+    log(chalk.red.inverse("note title does not exist"));
+  }
+};
+
+const addNote = function(title, body) {
+  const notes = loadNotes();
+
+  //callback function for filter to transverse through notes []
+  function checkNotes(note) {
+    return note.title === title;
+  }
+
+  const duplicateNotes = notes.filter(checkNotes);
+
+  if (duplicateNotes.length === 0) {
     notes.push({
-        title: title,
-        body: body
-    })
-    saveNotes(notes)
-    log ("new notes added!")
- }  else{
-     console.log ("note title is taken")
- }
- 
-//elog(notes)
+      title: title,
+      body: body
+    });
+    saveNotes(notes);
+    log(chalk.green.inverse("new notes added!"));
+  } else {
+    log(chalk.red.inverse("note title is taken"));
+  }
+};
 
-}
+const saveNotes = function(notes) {
+  const dataJSON = JSON.stringify(notes);
+  fs.writeFileSync("notes.json", dataJSON);
+};
 
-const saveNotes = function(notes){
-    const data_json =JSON.stringify(notes)
-    fs.writeFileSync ('notes.json',data_json)
-}
-
-
-const loadNotes = function(){
-
-    try{
-    const data_buffer = fs.readFileSync('notes.json')
-    const data_json = data_buffer.toString()
-    return JSON.parse(data_json)
-
-    }catch(e) {
-            return[]
-    }
-
-    
-}
+const loadNotes = function() {
+  try {
+    const dataBuffer = fs.readFileSync("notes.json");
+    const dataJSON = dataBuffer.toString();
+    return JSON.parse(dataJSON);
+  } catch (e) {
+    return [];
+  }
+};
 
 module.exports = {
-    getNotes: getNotes,
-    addNote: addNote,
-    removeNote: removeNote
-}
+  getNotes: getNotes,
+  addNote: addNote,
+  removeNote: removeNote
+};

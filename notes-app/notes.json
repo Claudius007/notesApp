@@ -1,1 +1,7 @@
-[{"title":"t","body":"b"},{"title":"tit","body":"bod"},{"title":"tit","body":"bod"}]
+[
+  {
+    "title": "the book",
+    "body": "I am writing to let you know the things i am doing"
+  },
+  { "title": "ttt", "body": "bbb" }
+]
