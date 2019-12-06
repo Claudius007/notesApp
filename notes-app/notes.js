@@ -5,8 +5,16 @@ const chalk = require("chalk");
 const getNotes = function() {
   return "Your notes...";
 };
+const listNotes = () => {
+  const notes = loadNotes();
 
-const removeNote = function(title) {
+  log(chalk.green("Your notes..."));
+
+  notes.forEach(note => {
+    log(note.title);
+  });
+};
+const removeNote = title => {
   const notes = loadNotes();
 
   function selectNoteToRemove(note) {
@@ -49,7 +57,7 @@ const saveNotes = function(notes) {
   fs.writeFileSync("notes.json", dataJSON);
 };
 
-const loadNotes = function() {
+const loadNotes = () => {
   try {
     const dataBuffer = fs.readFileSync("notes.json");
     const dataJSON = dataBuffer.toString();
@@ -62,5 +70,6 @@ const loadNotes = function() {
 module.exports = {
   getNotes: getNotes,
   addNote: addNote,
-  removeNote: removeNote
+  removeNote: removeNote,
+  listNotes: listNotes
 };

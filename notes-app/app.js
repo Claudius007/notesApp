@@ -64,7 +64,7 @@ yargs.command({
   command: "list",
   describe: "List note",
   handler: function() {
-    log("Listing from note");
+    notes.listNotes();
   }
 });
 yargs.parse();
