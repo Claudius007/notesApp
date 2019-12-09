@@ -2,17 +2,16 @@ const log = console.log;
 const fs = require("fs");
 const chalk = require("chalk");
 
-const getNotes = function(note) {
-  return "Your notes...";
-};
-
 const readNote = title => {
+  debugger;
   const notes = loadNotes();
-  const displayNotes = notes.find(note => {
-    if (note.title === title) {
-      log(note.body);
-    }
-  });
+  const displayedNote = notes.find(note => note.title === title);
+  if (displayedNote) {
+    log(chalk.inverse(displayedNote.title));
+    log(displayedNote.body);
+  } else {
+    log(chalk.red.inverse("Note not found!"));
+  }
 };
 
 const listNotes = () => {

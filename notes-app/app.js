@@ -1,19 +1,6 @@
-// wire up read command
-
-// *setup --title option for read command
-// *create readNote in notes.js
-//   -search for note by title
-//   -find note and print title (styled) and body (plain)
-//   -no note found? print error in red
-// *have the command handler call the function
-// *test your work by running a couple commands
-
-const log = console.log;
-const chalk = require("chalk");
 const yargs = require("yargs");
 const notes = require("./notes.js");
 
-//Customize yargs method
 yargs.version("1.1.0");
 
 //create add command
@@ -26,7 +13,6 @@ yargs.command({
       demandOption: true,
       type: "string"
     },
-
     body: {
       describe: "Note Body",
       demandOption: true,
@@ -53,6 +39,8 @@ yargs.command({
     notes.removeNote(argv.title);
   }
 });
+
+//customize read command
 yargs.command({
   command: "read",
   describe: "Read from a note",
@@ -68,6 +56,7 @@ yargs.command({
   }
 });
 
+//customize list command
 yargs.command({
   command: "list",
   describe: "List note",
